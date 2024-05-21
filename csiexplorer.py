@@ -20,6 +20,7 @@ from plot.heatmap import heatmap, timeHeatmap
 parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument('directory', type=str, help='name of CSI data directory')
 parser.add_argument('-p', '--plt', type=int, default=1, help='Select Plot type')
+parser.add_argument('-ns', '--nsub', type=int, default=0, help='Select Number of Subcarriers')
 parser.add_argument('--sub', type=util.str2bool, default=False, help='Use specific subcarriers(Boolean)')
 parser.add_argument('--smp', type=util.str2bool, default=False, help='Use data sampling(Boolean)')
 
@@ -59,6 +60,8 @@ null_list = null_pilot_dict['null_' + bandwidth]
 pilot_list = null_pilot_dict['pilot_' + bandwidth]
 
 use_sampling = args.smp
+
+num_of_subcarriers = args.nsub
 
 if use_sampling is True:
     # Sampling index (default is 0 to 1000)
@@ -115,7 +118,7 @@ if __name__ == "__main__":
                 AmpPlotter(csi_df, sample_start, sample_end, sub_list, csi_fname)
             # Use all subcarriers
             else:
-                AmpPlotter(csi_df, sample_start, sample_end, csi_fname)
+                AmpPlotter(csi_df, sample_start, sample_end, csi_fname, num_of_subcarriers=num_of_subcarriers)
 
         # 2.Amplitude-Time
         elif plot_type_idx == 2:

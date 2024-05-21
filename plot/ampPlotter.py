@@ -22,7 +22,7 @@ def lowpassfilter(signal, thresh=0.63, wavelet="db4"):
     return reconstructed_signal
 
 
-def AmpPlotter(csi_df, sample_start, sample_end, fname, spf_sub_list=None):
+def AmpPlotter(csi_df, sample_start, sample_end, fname, spf_sub_list=None, num_of_subcarriers=0):
 
     csi_df = csi_df[sample_start:sample_end]
 
@@ -47,7 +47,17 @@ def AmpPlotter(csi_df, sample_start, sample_end, fname, spf_sub_list=None):
         plt.show()
     else:
         subcarrier_list = []
-        for col in csi_df.columns:
+        
+        # If subcarrier's number is selected, show only selected number of subcarriers
+        if num_of_subcarriers == 0:
+            selected_columns = csi_df.columns
+        else:
+            total_columns = len(csi_df.columns)
+            interval = max(1, total_columns // num_of_subcarriers)
+            selected_indices = range(0, total_columns, interval)
+            selected_columns = [csi_df.columns[i] for i in selected_indices[:num_of_subcarriers]]
+
+        for col in selected_columns:
             subcarrier_list.append(csi_df[col].to_list())
 
         # ============ Denoising with DWT ==================
