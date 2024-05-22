@@ -80,6 +80,11 @@ if __name__ == "__main__":
 
         # Read csi.csv
         df = pd.read_csv(csi_path)
+        
+        ### Get time list from csv df
+        print(df)
+        start_time, end_time = util.getTime(df)
+        new_time_ms_list = [start_time, end_time]
 
         # Remove MAC address, timestamp
         csi_df = df.iloc[:, 2:]
@@ -127,7 +132,7 @@ if __name__ == "__main__":
                 AmpTimePlotter(csi_df, time_list, time_ms_list, sub_list, csi_fname)
             # Use all subcarriers
             else:
-                AmpTimePlotter(csi_df, time_list, time_ms_list, csi_fname)
+                AmpTimePlotter(csi_df, time_list, new_time_ms_list, csi_fname)
 
         # 3.Amplitude - Packet Heatmap
         elif plot_type_idx == 3:
