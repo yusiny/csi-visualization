@@ -52,11 +52,22 @@ def AmpPlotter(csi_df, sample_start, sample_end, fname, spf_sub_list=None, num_o
         if num_of_subcarriers == 0:
             selected_columns = csi_df.columns
         else:
+            # Remove Guard, Null, Pilot Subcarriers
             total_columns = len(csi_df.columns)
-            interval = max(1, total_columns // num_of_subcarriers)
-            selected_indices = range(0, total_columns, interval)
-            selected_columns = [csi_df.columns[i] for i in selected_indices[:num_of_subcarriers]]
+            num_of_guard_pilot = 12 
+            num_of_data_subcarriers = total_columns - num_of_guard_pilot # Remove Guard Subcarriers
+            
+            interval = max(1, num_of_data_subcarriers // num_of_subcarriers)
+            selected_indices = []
+            for i in range(num_of_data_subcarriers):
+                if i % interval == 0: # Remove Pilot Subcarriers
+                    selected_indices.append(i)
+                    
+            adjusted_indices = [idx for idx in selected_indices if idx < num_of_data_subcarriers]
+            selected_columns = [csi_df.columns[i] for i in adjusted_indices[:num_of_subcarriers]]
 
+
+        print(f">>> Selected Columns: {selected_columns}")
         for col in selected_columns:
             subcarrier_list.append(csi_df[col].to_list())
 
