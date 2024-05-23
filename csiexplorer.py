@@ -132,7 +132,7 @@ if __name__ == "__main__":
                 AmpTimePlotter(csi_df, time_list, time_ms_list, sub_list, csi_fname)
             # Use all subcarriers
             else:
-                AmpTimePlotter(csi_df, time_list, new_time_ms_list, csi_fname)
+                AmpTimePlotter(csi_df, time_list, new_time_ms_list, csi_fname, num_of_subcarriers=num_of_subcarriers)
 
         # 3.Amplitude - Packet Heatmap
         elif plot_type_idx == 3:
@@ -148,7 +148,7 @@ if __name__ == "__main__":
 
         # 4.Amplitude-Time Heatmap
         elif plot_type_idx == 4:
-            timeHeatmap(csi_df, time_list, time_ms_list)
+            timeHeatmap(csi_df, time_list, new_time_ms_list)
 
         # 5.Amplitude-Subcarrier Index
         elif plot_type_idx == 5:
